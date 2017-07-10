@@ -22,6 +22,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+
+    signingConfigs{
+        config{
+            storeFile file(KEY_PATH)
+            storePassword KEY_PASS
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASS
         }
     }
 }

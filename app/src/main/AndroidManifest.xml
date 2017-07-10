@@ -49,6 +49,9 @@
 
         <activity android:name=".TrackActivity"></activity>
 
+        <activity android:name=".SearchActivity"
+            android:exported="true"></activity>
+
         <!--<receiver-->
             <!--android:name=".PlayerControlReceiver"-->
             <!--android:exported="false">-->

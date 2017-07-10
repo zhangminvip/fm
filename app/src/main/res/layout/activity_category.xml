@@ -29,7 +29,7 @@
         android:id="@+id/btn_category_humanity"
         android:text="人文"
         android:textColor="#FFF"
-        android:background="#c89cae00"
+        android:background="#c8ffe101"
         android:layout_gravity="left|bottom"
         app:layout_widthPercent = "50%"
         app:layout_heightPercent = "50%"

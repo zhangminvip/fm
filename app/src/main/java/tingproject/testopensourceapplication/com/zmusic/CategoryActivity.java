@@ -29,6 +29,22 @@ public class CategoryActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.activity_category);
         initView();
         initEvent();
+//        Intent intent = getIntent();
+
+
+//        String music_name = intent.getStringExtra("music_name");
+//        String music_type = intent.getStringExtra("music_type");
+//        if(music_type.equals("1")){
+//            Intent intent_seach = new Intent(this,SearchActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putString("music_name",music_name);
+//            bundle.putString("music_type",music_type);
+//            Log.d("音乐的类行",music_name+"   "+music_type);
+//            intent_seach.putExtras(bundle);
+//            startActivity(intent_seach);
+//        }
+
+
 
 
 

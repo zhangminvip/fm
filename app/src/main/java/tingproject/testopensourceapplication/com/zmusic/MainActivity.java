@@ -64,6 +64,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         initView();
+        Intent intent = getIntent();
+        data = intent.getIntExtra("position",0);
+
+
+
+        mPlayerManager = XmPlayerManager.getInstance(this);
+        mPlayerManager.init();
+        mPlayerManager.playList(TrackActivity.mTrackList,data);
+        mPlayerManager.play();
+        checkPlayerStatus();
         initEvent();
 
 
@@ -173,14 +183,7 @@ public class MainActivity extends Activity {
      * 初始化事件,设置播放器监听器。
      */
     public void initEvent() {
-        Intent intent = getIntent();
-         data = intent.getIntExtra("position",0);
-        Log.d("传给播放器的data",""+data);
-        mPlayerManager = XmPlayerManager.getInstance(this);
-        mPlayerManager.init();
-        mPlayerManager.playList(TrackActivity.mTrackList,data);
-        mPlayerManager.play();
-        checkPlayerStatus();
+
         mPlayerManager.addPlayerStatusListener(new IXmPlayerStatusListener() {
             @Override
             public void onPlayStart() {

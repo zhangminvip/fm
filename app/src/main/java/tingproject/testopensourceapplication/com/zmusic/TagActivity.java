@@ -112,9 +112,6 @@ public class TagActivity extends Activity {
 
                             }
                         });
-
-
-
                     }
 
                     @Override
@@ -248,9 +245,6 @@ public class TagActivity extends Activity {
 
                             }
                         });
-
-
-
                     }
 
                     @Override
@@ -259,14 +253,8 @@ public class TagActivity extends Activity {
                     }
                 });
                 break;
-
-
-
-
             default:
                 break;
-
-
         }
     }
 }
