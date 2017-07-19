@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
@@ -41,6 +42,8 @@ public class MainActivity extends Activity {
     private Button btn_pause;
     private Button btn_play;
 
+    private TextView title;
+
     private int data;
 
     private static final String TAG = "zhangmin";
@@ -66,6 +69,9 @@ public class MainActivity extends Activity {
         initView();
         Intent intent = getIntent();
         data = intent.getIntExtra("position",0);
+        Log.d("","标题栏"+TrackActivity.mTrackList.get(data).getTrackTitle()+"data:" +data);
+        title.setText(TrackActivity.mTrackList.get(data).getTrackTitle());
+        title.requestFocus();
 
 
 
@@ -247,6 +253,7 @@ public class MainActivity extends Activity {
     public void initView() {
         btn_pause = (Button) findViewById(R.id.pause);
         btn_play = (Button) findViewById(R.id.play);
+        title = (TextView)findViewById(R.id.music_title);
     }
 
 
@@ -293,12 +300,16 @@ public class MainActivity extends Activity {
     public void next(View view) {
         Log.d(TAG, "next");
         mPlayerManager.playNext();
+        title.setText(TrackActivity.mTrackList.get(mPlayerManager.getCurrentIndex()).getTrackTitle());
+        title.requestFocus();
         checkPlayerStatus();
     }
 
     public void preview(View view) {
         Log.d(TAG, "preview");
         mPlayerManager.playPre();
+        title.setText(TrackActivity.mTrackList.get(mPlayerManager.getCurrentIndex()).getTrackTitle());
+        title.requestFocus();
         checkPlayerStatus();
     }
 

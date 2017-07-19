@@ -7,6 +7,20 @@
     android:layout_height="match_parent"
     tools:context="tingproject.testopensourceapplication.com.zmusic.MainActivity">
 
+    <TextView
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp"
+        android:id="@+id/music_title"
+        android:textColor="#fff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/play"/>
+
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -45,5 +59,13 @@
         android:background="@mipmap/next_128"
         android:layout_centerVertical="true"
         android:onClick="next"/>
+
+    <tingproject.testopensourceapplication.com.zmusic.Volume
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </tingproject.testopensourceapplication.com.zmusic.Volume>
 
 </RelativeLayout>

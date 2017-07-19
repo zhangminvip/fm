@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="#000"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/preview_qq"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:onClick="preview"
+        android:background="@mipmap/previous_128"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/play_qq"
+            android:background="@mipmap/play_128"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:onClick="play"/>
+
+        <Button
+            android:id="@+id/pause_qq"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:background="@mipmap/pause_128"
+            android:onClick="pause"/>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/next_qq"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@mipmap/next_128"
+        android:onClick="next"/>
+
+    <tingproject.testopensourceapplication.com.zmusic.Volume
+        android:layout_below="@+id/play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </tingproject.testopensourceapplication.com.zmusic.Volume>
+
+</LinearLayout>
