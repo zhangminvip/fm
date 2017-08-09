@@ -1,8 +1,4 @@
-package tingproject.testopensourceapplication.com.zmusic;
-
-/**
- * Created by tom on 2017/7/4.
- */
+package com.gg.tiantianshouyin;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.tag.Tag;
 
 import java.util.List;
@@ -24,28 +19,28 @@ import java.util.List;
  * Created by tom on 2017/7/4.
  */
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
+public class TagAdapter extends RecyclerView.Adapter<TagAdapter.ViewHolder> {
 
     private Context mContext;
 
-    private List<Album> mAlbumList;
+    private List<Tag> mTagList;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         CardView mCardView;
 
-        TextView AlbumName;
+        TextView TagName;
 
         public ViewHolder(View view){
             super(view);
             mCardView = (CardView)view;
-            AlbumName = (TextView)view.findViewById(R.id.album_name);
+            TagName = (TextView)view.findViewById(R.id.tag_name);
         }
     }
 
 
-    public AlbumAdapter(List<Album> albumList){
-        mAlbumList = albumList;
+    public TagAdapter(List<Tag> tagList){
+        mTagList = tagList;
     }
 
     @Override
@@ -54,17 +49,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             mContext = parent.getContext();
         }
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.album_item,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.tag_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("启动Album","");
                 int position = holder.getAdapterPosition();
-                Album album = mAlbumList.get(position);
-                Intent intent = new Intent(mContext,TrackActivity.class);
-                intent.putExtra(DTransferConstants.ALBUM_ID,album.getId());
-                Log.d("获得专辑id",""+album.getId());
+                Tag tag = mTagList.get(position);
+                Intent intent = new Intent(mContext,AlbumActivity.class);
+                intent.putExtra(DTransferConstants.TAG_NAME,tag.getTagName());
                 mContext.startActivity(intent);
+                Log.d("启动Album","");
             }
         });
         return holder;
@@ -73,13 +69,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
-        Album album = mAlbumList.get(position);
-        holder.AlbumName.setText(album.getAlbumTitle());
+        Tag tag = mTagList.get(position);
+        holder.TagName.setText(tag.getTagName());
     }
 
     @Override
     public int getItemCount(){
-        return mAlbumList.size();
+        return mTagList.size();
     }
 
 }

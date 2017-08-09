@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:background="#000"
+    android:id="@+id/mainactivity"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="tingproject.testopensourceapplication.com.zmusic.MainActivity">
+    tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/music_title"
         android:ellipsize="marquee"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:marqueeRepeatLimit="marquee_forever"
+
         android:maxLines="1"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:id="@+id/music_title"
+
         android:textColor="#fff"
-        android:layout_width="wrap_content"
+        android:textSize="25sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/play"/>
 
     <Button
+        android:id="@+id/previous"
+        android:visibility="gone"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_toLeftOf="@+id/play"
@@ -52,20 +56,22 @@
 
     <Button
         android:id="@+id/next"
+        android:visibility="gone"
+
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-       android:layout_toRightOf="@+id/play"
+        android:layout_toRightOf="@+id/play"
         android:background="@mipmap/next_128"
         android:layout_centerVertical="true"
         android:onClick="next"/>
 
-    <tingproject.testopensourceapplication.com.zmusic.Volume
+    <com.gg.tiantianshouyin.Volume
         android:layout_marginTop="30dp"
         android:layout_below="@+id/play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </tingproject.testopensourceapplication.com.zmusic.Volume>
+    </com.gg.tiantianshouyin.Volume>
 
 </RelativeLayout>

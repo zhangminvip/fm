@@ -1,38 +1,41 @@
-package tingproject.testopensourceapplication.com.zmusic;
+package com.gg.tiantianshouyin;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.icu.text.LocaleDisplayNames;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
-import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
+import com.gg.tiantianshouyin.function.FastBlurUtil;
+
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
-import com.ximalaya.ting.android.opensdk.model.album.AlbumList;
 import com.ximalaya.ting.android.opensdk.model.category.Category;
-import com.ximalaya.ting.android.opensdk.model.category.CategoryList;
 import com.ximalaya.ting.android.opensdk.model.tag.Tag;
-import com.ximalaya.ting.android.opensdk.model.tag.TagList;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
-import com.ximalaya.ting.android.opensdk.model.track.TrackList;
 import com.ximalaya.ting.android.opensdk.player.XmPlayerManager;
 import com.ximalaya.ting.android.opensdk.player.service.IXmPlayerStatusListener;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
-
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+
 
 import static com.ximalaya.ting.android.opensdk.player.constants.PlayerConstants.STATE_PAUSED;
 import static com.ximalaya.ting.android.opensdk.player.constants.PlayerConstants.STATE_STARTED;
@@ -41,20 +44,19 @@ public class MainActivity extends Activity {
 
     private Button btn_pause;
     private Button btn_play;
-
+    private Button btn_next;
+    private Button btn_previous;
     private TextView title;
-
     private int data;
 
     private static final String TAG = "zhangmin";
     private static final String APP_SECRET = "2d5e40f87904d6cb292b6388e82680a7";
-
     public List<Category> mCategoryList = new ArrayList<Category>();      //类别列表  有声书 、音乐、娱乐。。。。。
     public List<Tag> mTagList = new ArrayList<Tag>();                      //类别下的标签列表    悬疑、 言情  幻想  等
     public List<Album> mAlbumList = new ArrayList<Album>();              //标签后专辑
     public List<Track> mTrackList = new ArrayList<Track>();               //专辑下的声音
 
-//    private Category mCategory;
+    private RelativeLayout layout;    //为毛玻璃准备
 
 
     private XmPlayerManager mPlayerManager;
@@ -66,123 +68,71 @@ public class MainActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        initView();
+
+        // 模糊背景
+        layout = (RelativeLayout)this.findViewById(R.id.mainactivity);
+        setBackground(R.drawable.background);
+
+
+        mPlayerManager = XmPlayerManager.getInstance(MainActivity.this);
+        mPlayerManager.init();
+
         Intent intent = getIntent();
         data = intent.getIntExtra("position",0);
+        initView();
         Log.d("","标题栏"+TrackActivity.mTrackList.get(data).getTrackTitle()+"data:" +data);
+        title.requestFocus();
         title.setText(TrackActivity.mTrackList.get(data).getTrackTitle());
         title.requestFocus();
-
-
-
-        mPlayerManager = XmPlayerManager.getInstance(this);
-        mPlayerManager.init();
+        Log.d("","标题栏"+title.isFocused());
         mPlayerManager.playList(TrackActivity.mTrackList,data);
         mPlayerManager.play();
         checkPlayerStatus();
         initEvent();
 
+    }
 
-        // sdk初始化
-//        CommonRequest.getInstanse().init(this, APP_SECRET);
+    /**
+     * 设置自定义toast
+     * @param text
+     * @param duration
+     */
 
-        /**
-         * 获取分类列表
-         */
+    public void makeCustomToast(String text , int duration){
+        View layout = getLayoutInflater().inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+        // set a message
+        TextView toastText = (TextView) layout.findViewById(R.id.toasttext);
+        toastText.setText(text);
 
-//        CommonRequest.getCategories(null, new IDataCallBack<CategoryList>() {
-//            @Override
-//            public void onSuccess(CategoryList list) {
-//                mCategoryList = list.getCategories();
-//                Log.d(TAG, "*****************所有分类列表**************");
-//                for (Category c : mCategoryList) {
-//                    Log.d(TAG, "CategoryName: " + c.getCategoryName() + ",Id: " + c.getId());
-//                }
-//            }
-//
-//            @Override
-//            public void onError(int i, String s) {
-//                Log.d(TAG, "获取喜马拉雅FM内容分类失败");
-//            }
-//        });
+        // Toast...
+        Toast toast = new Toast(this);
+        toast.setGravity(Gravity.BOTTOM, 0, 0);
+        toast.setDuration(duration);
+        toast.setView(layout);
+        toast.show();
+    }
 
+    /**
+     * 设置毛玻璃背景
+     */
+    @SuppressWarnings("deprecation")
+    private void setBackground(int id){
+        Bitmap originbmp = null;
 
-        /**
-         * 获取标签列表
-         *
-         */
+        originbmp = BitmapFactory.decodeResource(getResources(),id);
 
-//        Map<String, String> tagDesc = new HashMap<String, String>();
-//        tagDesc.put(DTransferConstants.CATEGORY_ID, "6");
-//        tagDesc.put(DTransferConstants.TYPE, "0");
-//        CommonRequest.getTags(tagDesc, new IDataCallBack<TagList>() {
-//            @Override
-//            public void onSuccess(TagList list) {
-//                mTagList = list.getTagList();
-//                Log.d(TAG, "*****************儿童分类标签列表**************");
-//                for (Tag t : mTagList) {
-//                    Log.d(TAG, "TagName: " + t.getTagName());
-//                }
-//            }
-//
-//            @Override
-//            public void onError(int i, String s) {
-//
-//            }
-//        });
+        Bitmap thumbnailBitmap = Bitmap.createScaledBitmap(originbmp,originbmp.getWidth()/10,originbmp.getHeight()/10,false);
 
-        /**
-         *
-         * 获取专辑列表
-         *
-         */
+        final Bitmap blurBmp = FastBlurUtil.doBlur(thumbnailBitmap,8,false);
+        final Drawable newBitmapDrawable = new BitmapDrawable(blurBmp);
 
-//        Map<String, String> albumDesc = new HashMap<String, String>();
-//        albumDesc.put(DTransferConstants.CATEGORY_ID, "6");
-//        albumDesc.put(DTransferConstants.TAG_NAME, "儿歌大全");
-//        albumDesc.put(DTransferConstants.CALC_DIMENSION, "1");
-//        CommonRequest.getAlbumList(albumDesc, new IDataCallBack<AlbumList>() {
-//            @Override
-//            public void onSuccess(AlbumList list) {
-//                mAlbumList = list.getAlbums();
-//                Log.d(TAG, "*****************儿歌大全标签专辑列表**************");
-//                for (Album a : mAlbumList) {
-//                    Log.d(TAG, "AlbumTitle: " + a.getAlbumTitle() + ",Id: " + a.getId());
-//                }
-//            }
-//
-//            @Override
-//            public void onError(int i, String s) {
-//
-//            }
-//        });
-
-
-        /**
-         *
-         * 获取播放列表
-         *
-         *
-         */
-
-//        Map<String, String> trackDesc = new HashMap<String, String>();
-//        trackDesc.put(DTransferConstants.ALBUM_ID, "267101");
-//        trackDesc.put(DTransferConstants.SORT, "asc");
-//        CommonRequest.getTracks(trackDesc, new IDataCallBack<TrackList>() {
-//            @Override
-//            public void onSuccess(TrackList list) {
-//                mTrackList = list.getTracks();
-//                Log.d(TAG, "*****************天天听儿歌声音列表**************");
-//                for (Track t : mTrackList) {
-//                    Log.d(TAG, t.getTrackTitle() + "  " + t.getPlayUrlAmr());
-//                }
-//            }
-//
-//            @Override
-//            public void onError(int i, String s) {
-//
-//            }
-//        });
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                layout.setBackground(newBitmapDrawable);
+            }
+        });
     }
 
     /**
@@ -223,7 +173,8 @@ public class MainActivity extends Activity {
 
             @Override
             public void onBufferingStart() {
-
+//                ToastUtils.show(MainActivity.this,"缓冲中");
+                makeCustomToast("缓冲中",Toast.LENGTH_SHORT);
             }
 
             @Override
@@ -246,7 +197,11 @@ public class MainActivity extends Activity {
                 return false;
             }
         });
+
+
     }
+
+
 
 
 
@@ -254,6 +209,8 @@ public class MainActivity extends Activity {
         btn_pause = (Button) findViewById(R.id.pause);
         btn_play = (Button) findViewById(R.id.play);
         title = (TextView)findViewById(R.id.music_title);
+        btn_next = (Button)findViewById(R.id.next);
+        btn_previous = (Button)findViewById(R.id.previous);
     }
 
 
@@ -277,24 +234,24 @@ public class MainActivity extends Activity {
 
     public void play(View view) {
         Log.d(TAG, "play");
-//        btn_pause.setVisibility(View.VISIBLE);
-//        btn_play.setVisibility(View.INVISIBLE);
+        btn_pause.setVisibility(View.VISIBLE);
+        btn_play.setVisibility(View.INVISIBLE);
+        btn_next.setVisibility(View.VISIBLE);
+        btn_previous.setVisibility(View.VISIBLE);
         mPlayerManager.playList(TrackActivity.mTrackList, data);
         mPlayerManager.play();
-        checkPlayerStatus();
+
+
     }
 
-    public void stop(View view) {
-        Log.d(TAG, "stop");
-        mPlayerManager.stop();
-    }
+
 
     public void pause(View view) {
-//        btn_pause.setVisibility(View.INVISIBLE);
-//        btn_play.setVisibility(View.VISIBLE);
+        btn_pause.setVisibility(View.INVISIBLE);
+        btn_play.setVisibility(View.VISIBLE);
         Log.d(TAG, "pause");
         mPlayerManager.pause();
-        checkPlayerStatus();
+
     }
 
     public void next(View view) {
@@ -313,9 +270,24 @@ public class MainActivity extends Activity {
         checkPlayerStatus();
     }
 
+
+    @Override
+    public void onPause(){
+        mPlayerManager.pause();
+
+        super.onPause();
+    }
+
     @Override
     protected void onDestroy() {
         mPlayerManager.release();
         super.onDestroy();
+    }
+
+
+    @Override
+    public void onResume(){
+        checkPlayerStatus();
+        super.onResume();
     }
 }

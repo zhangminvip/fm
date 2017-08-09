@@ -19,7 +19,7 @@
             andorid:layout_height="wrap_content"
             andorid:layout_gravity="center_horizontal"
             andorid:layout_margin="5dp"
-            andorid:textSize="16sp"
+            andorid:textSize="20sp"
             andorid:textColor="#000"/>
 
 

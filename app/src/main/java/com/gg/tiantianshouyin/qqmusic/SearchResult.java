@@ -1,4 +1,4 @@
-package tingproject.testopensourceapplication.com.zmusic.qqmusic;
+package com.gg.tiantianshouyin.qqmusic;
 
 import java.util.List;
 

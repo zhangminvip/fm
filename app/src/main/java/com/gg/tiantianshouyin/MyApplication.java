@@ -1,4 +1,4 @@
-package tingproject.testopensourceapplication.com.zmusic;
+package com.gg.tiantianshouyin;
 
 import android.app.Application;
 import android.content.Context;

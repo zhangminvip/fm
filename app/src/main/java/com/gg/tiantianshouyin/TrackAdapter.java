@@ -1,4 +1,4 @@
-package tingproject.testopensourceapplication.com.zmusic;
+package com.gg.tiantianshouyin;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,16 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.List;
+
 
 /**
  * Created by tom on 2017/7/4.
  */
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class TrackAdapter extends RecyclerView.Adapter<TrackAdapter.ViewHolder> {
 
     private Context mContext;
 
@@ -39,7 +39,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
 
-    public SearchAdapter(List<Track> TrackList){
+    public TrackAdapter(List<Track> TrackList){
         mTrackList = TrackList;
     }
 
@@ -54,11 +54,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Log.d("跳转到播放界面了","klsdjfsljdf");
                 int position = holder.getAdapterPosition();
                 Log.d("位置",position+"");
                 Track Track = mTrackList.get(position);
-                TrackActivity.mTrackList = mTrackList;
                 Intent intent = new Intent(mContext,MainActivity.class);
                 intent.putExtra("position",position);
                 mContext.startActivity(intent);

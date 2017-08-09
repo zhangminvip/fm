@@ -1,4 +1,4 @@
-package tingproject.testopensourceapplication.com.zmusic;
+package com.gg.tiantianshouyin;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -23,7 +23,7 @@ public class Volume extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.volume_seek_bar,this);
 
         mView_sb_play_volum = (SeekBar)findViewById(R.id.seekbar_def);
-        mAudioManager = (AudioManager)MyApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager = (AudioManager) MyApplication.getContext().getSystemService(Context.AUDIO_SERVICE);
         maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mView_sb_play_volum.setMax(maxVolume);
         currentVolum = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
