@@ -41,7 +41,7 @@ public class TrackActivity extends Activity {
         setContentView(R.layout.activity_track);
 
         final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view_track);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(layoutManager);
 
         Intent intent = getIntent();

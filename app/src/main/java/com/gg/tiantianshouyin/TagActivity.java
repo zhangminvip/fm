@@ -46,7 +46,7 @@ public class TagActivity extends Activity {
         setContentView(R.layout.activity_tag);
         Log.d(TAG, "执行到onCreate");
         final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view_tag);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(layoutManager);
 
 

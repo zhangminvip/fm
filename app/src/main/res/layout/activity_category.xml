@@ -16,38 +16,98 @@
         <!--app:layout_heightPercent = "50%"-->
         <!--/>-->
 
-    <Button
+    <android.support.v7.widget.CardView
+
         android:id="@+id/btn_category_children"
-        android:text="儿 童"
-        android:textColor="#FFF"
-        android:textSize="28sp"
-        android:background="#c8030dc7"
+        xmlns:android = "http://schemas.android.com/apk/res/android"
+        xmlns:app = "http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="0dp"
-
-        />
-
-    <Button
-        android:id="@+id/btn_category_humanity"
-        android:text="人 文"
-        android:textColor="#FFF"
-        android:textSize="28sp"
-        android:background="#c8028e00"
-        android:layout_width="match_parent"
         android:layout_weight="1"
-        android:layout_height="0dp"
-        />
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        app:cardCornerRadius="30dp">
 
-    <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:textSize="65sp"
+                android:textColor="#000"
+                android:text="儿童"/>
+            
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+
         android:id="@+id/btn_category_english"
-        android:text="英 语"
-        android:textColor="#FFF"
-        android:textSize="28sp"
-        android:background="#c86d00b1"
+        xmlns:android = "http://schemas.android.com/apk/res/android"
+        xmlns:app = "http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_weight="1"
         android:layout_height="0dp"
-        />
+        android:layout_weight="1"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        app:cardCornerRadius="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_margin="5dp"
+                android:textSize="65sp"
+                android:textColor="#000"
+                android:text="英语"/>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_category_humanity"-->
+        <!--android:text="人 文"-->
+        <!--android:textColor="#FFF"-->
+        <!--android:textSize="28sp"-->
+        <!--android:background="#c8028e00"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_height="0dp"-->
+        <!--/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/btn_category_english"-->
+        <!--android:text="英 语"-->
+        <!--android:textColor="#FFF"-->
+        <!--android:textSize="28sp"-->
+        <!--android:background="#c86d00b1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_height="0dp"-->
+        <!--/>-->
 
 </LinearLayout>

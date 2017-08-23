@@ -5,7 +5,10 @@ package com.gg.tiantianshouyin.qqmusic;
  */
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,22 +21,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gg.tiantianshouyin.MyApplication;
 import com.gg.tiantianshouyin.R;
+import com.gg.tiantianshouyin.SearchPlayService;
 import com.gg.tiantianshouyin.function.FastBlurUtil;
-import com.google.gson.Gson;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import static com.gg.tiantianshouyin.SearchPlayService.mp;
 
 
 public class SearchActivity  extends Activity implements View.OnClickListener {
-    private String music_name = "宠爱";
+    private static final String TAG = "searchactivity";
+
+    public static String music_name = "宠爱";
     private Button play;
     private Button pause;
     private Button preview;
@@ -41,7 +43,12 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
     private TextView title;
     private LinearLayout layout;
 
-    private MediaPlayer mp = new MediaPlayer();
+    private MediaPlayer mPlayer ;
+
+    private IntentFilter mIntentFilter;
+    private ServiceReceiver mServiceReceiver;
+
+
 
 
     @Override
@@ -64,7 +71,14 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
         title.setText(music_name);
         title.requestFocus();
         initEvent();
-        searchSong();
+        Intent playintent = new Intent(this, SearchPlayService.class);
+        startService(playintent);
+
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction("com.gg.tiantianshouyin.SearchActivity");
+        mServiceReceiver = new ServiceReceiver();
+        registerReceiver(mServiceReceiver,mIntentFilter);
+//        searchSong();
     }
 
 
@@ -110,37 +124,8 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
 
     }
 
-    /**
-     * 搜索歌曲
-     */
-    private void searchSong() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-                    Request request = new Request.Builder()
-                            .url("http://s.music.qq.com/fcgi-bin/music_search_new_platform?t=0&n=1&aggr=1&cr=1&loginUin=0&format=json&inCharset=GB2312&outCharset=utf-8&notice=0&platform=jqminiframe.json&needNewCode=0&p=1&catZhida=0&remoteplace=sizer.newclient.next_song&w=" + music_name)
-                            .build();
-                    Response response = client.newCall(request).execute();
-                    if (response.isSuccessful()) {
-//                        remind("正在为您播放歌曲" + music_name);
-                        makeCustomToast("正在为您播放歌曲"+music_name,Toast.LENGTH_SHORT);
-                        String responseData = response.body().string();
-                        // 播放歌曲
-                        mp.setDataSource("http://ws.stream.qqmusic.qq.com/" + getSongId(responseData) + ".m4a?fromtag=46");
-                        mp.prepare();
-                        mp.start();
-                    } else {
-//                        remind("播放失败");
-                        makeCustomToast("播放失败",Toast.LENGTH_SHORT);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
+
+
 
     public void makeCustomToast( final  String text , final int duration){
         runOnUiThread(new Runnable() {
@@ -178,23 +163,6 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
     }
 
 
-    /**
-     * 获取歌曲的id
-     *
-     * @param jsonData
-     * @return
-     */
-    private String getSongId(String jsonData) {
-        Gson gson = new Gson();
-        SearchResult search = gson.fromJson(jsonData, SearchResult.class);
-        String[] params = search.getData().getSong().getList().get(0).getF().split("\\|");
-//        for (String s : params) {
-//            Log.d("json", s);
-//        }
-        String id = params[0];
-        Log.d("json", params[1] + "id: " + id);
-        return id;
-    }
 
 
     int i = 0;
@@ -204,12 +172,14 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.play_qq:
-                mp.start();
+                mPlayer = mp;            // 这个很重要,mp每次会变化，所以MianActivity的mPlayer也要用时附最新的值。
+                mPlayer.start();
                 checkPlayerStatus();
                 break;
             case R.id.pause_qq:
                 i = 1;
-                mp.pause();
+                mPlayer = mp;
+                mPlayer.pause();
                 checkPlayerStatus();
                 break;
             default:
@@ -219,20 +189,21 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
     }
 
     public void checkPlayerStatus() {
-        if (mp.isPlaying() == true) {
+        if (mPlayer.isPlaying() == true) {
             play.setVisibility(View.INVISIBLE);
             pause.setVisibility(View.VISIBLE);
 
-            Log.d("Main", "");
-        } else if (mp.isPlaying() == false) {
+            Log.d(TAG, "");
+        } else if (mPlayer.isPlaying() == false) {
             play.setVisibility(View.VISIBLE);
             pause.setVisibility(View.INVISIBLE);
-            Log.d("Main", "");
+            Log.d(TAG, "");
         }
     }
 
     @Override
     protected void onRestart() {
+        super.onRestart();
 
 
         Intent intent = getIntent();
@@ -243,42 +214,73 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
         title.setText(music_name);
         title.requestFocus();
 
-        searchSong();
+//        searchSong();
 
-        Log.d("生命周期","onRestart");
+        Log.d(TAG,"onRestart");
         Log.d("生命周期","onRestart:: music_name:" +music_name);
     }
+
+
     @Override
     protected void onStart(){
         super.onStart();
-        Log.d("生命周期","onStart");
+        Log.d(TAG,"onStart");
     }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("生命周期","onResume");
+        Log.d(TAG,"onResume");
     }
+
+
 
     @Override
     protected void onStop(){
 
         super.onStop();
-        Log.d("生命周期","onStop");
-        if (mp != null) {
-            mp.stop();
-            mp.release();
-        }
-        finish();    // 在此处调用onDestroy并不能finish掉activity，或许onDestroy只是一个回调，处理一些返回键的事情，点桌面键必须手动finish()....
+//        Log.d("生命周期","onStop");
+//        if (mp != null) {
+//            mp.stop();
+//            mp.release();
+//        }
+//        finish();    // 在此处调用onDestroy并不能finish掉activity，或许onDestroy只是一个回调，处理一些返回键的事情，点桌面键必须手动finish()....
 
     }
 
-    protected void onDestroy() {
-        if (mp != null) {
 
-            mp.release();
+
+
+    public  class ServiceReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent){
+            String result = intent.getStringExtra("todo");
+            Log.d(TAG,"接收到广播，result = "+result);
+            if(result.equals("toast")){
+                Log.d(TAG,"result == toast");
+                makeCustomToast("正在为您播放歌曲"+music_name,Toast.LENGTH_SHORT);
+                Log.d(TAG,"执行完maketoast");
+            }
+
+            if(result.equals("showfail")){
+                makeCustomToast("播放失败",Toast.LENGTH_SHORT);
+            }
+
+
         }
+
+    }
+
+
+    protected void onDestroy() {
+
         super.onDestroy();
-        Log.d("生命周期","onDestory");
+
+        Intent intent = new Intent(this,SearchPlayService.class);
+        stopService(intent);
+        unregisterReceiver(mServiceReceiver);
+        Log.d(TAG,"onDestory");
     }
 }

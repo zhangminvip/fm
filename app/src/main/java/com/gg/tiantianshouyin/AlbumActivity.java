@@ -39,7 +39,7 @@ public class AlbumActivity extends Activity {
         setContentView(R.layout.activity_album);
 
         final RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view_album);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(layoutManager);
 
         Intent i = getIntent();

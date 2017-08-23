@@ -4,8 +4,11 @@
     xmlns:app = "http://schemas.android.com/apk/res-auto"
     andorid:layout_width="match_parent"
     andorid:layout_height="wrap_content"
-    andorid:layout_margin="5dp"
-    app:cardCornerRadius="4dp">
+    andorid:layout_marginTop="5dp"
+    andorid:layout_marginBottom="5dp"
+    andorid:layout_marginLeft="32dp"
+    andorid:layout_marginRight="32dp"
+    app:cardCornerRadius="30dp">
 
     <LinearLayout
         andorid:layout_width="match_parent"
@@ -18,8 +21,8 @@
             andorid:layout_width="wrap_content"
             andorid:layout_height="wrap_content"
             andorid:layout_gravity="center_horizontal"
-            andorid:layout_margin="5dp"
-            andorid:textSize="20sp"
+
+            andorid:textSize="40sp"
             andorid:textColor="#000"/>
     </LinearLayout>
 

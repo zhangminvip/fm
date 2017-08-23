@@ -23,3 +23,16 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+-keep class com.ximalaya.ting.android.opensdk.** {*;}
+-keep interface com.ximalaya.ting.android.opensdk.** {*;}
+
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.examples.android.model.** { *; }
+
+-keep class com.squareup.okhttp.** { *;}
+-dontwarn com.squareup.okhttp.**
+-dontwarn okio.**
