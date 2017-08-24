@@ -1,6 +1,7 @@
 package com.gg.tiantianshouyin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,8 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,7 +37,9 @@ public class CategoryActivity extends Activity implements View.OnClickListener{
 
     private AlertDialog.Builder mDialog;
 
-    private String VersionCode = "0";
+    private String VersionCode = "3";
+
+    private String AppName = "故事与英语";
 
 
     private String TAG = "CategoryActivity";
@@ -72,31 +75,32 @@ public class CategoryActivity extends Activity implements View.OnClickListener{
 
 
 
-//网络检查版本是否需要更新
-//        CheckUpdateUtils.checkUpdate("对话引擎", VersionCode, new CheckUpdateUtils.CheckCallBack() {
-//            @Override
-//            public void onSuccess(JsonsRootBean updateInfo) {
-//                String isForce = updateInfo.getData().getForceupdate();//是否需要强制更新
-//                String downUrl = "http://192.168.124.26:8080/znsb" + updateInfo.getData().getFilepath();//apk下载地址
-//                String updateinfo = updateInfo.getData().getUpgradeinfo();//apk更新详情
-//                String appName = "对话引擎";
-//                if (isForce.equals("yes")) {                              //强制更新     && !TextUtils.isEmpty(updateinfo)
-//                    Log.d(TAG, "强制升级:：：：" + isForce);
-//                    Log.d(TAG, "下载地址：：：" + downUrl);
-//                    Log.d(TAG, "跟新信息：：：" + updateinfo);
-//                    forceUpdate(MyApplication.getContext(), appName, downUrl, updateinfo);
-//                } else {//非强制更新
-//                    //正常升级
-//                    Log.d(TAG, "正常升级");
-//                    normalUpdate(MyApplication.getContext(), appName, downUrl, updateinfo);
-//                }
-//            }
-//
-//            @Override
-//            public void onError() {
-//                noneUpdate(MyApplication.getContext());
-//            }
-//        });
+            //网络检查版本是否需要更新
+        CheckUpdateUtils.checkUpdate(AppName, VersionCode, new CheckUpdateUtils.CheckCallBack() {
+            @Override
+            public void onSuccess(JsonsRootBean updateInfo) {
+                String isForce = updateInfo.getData().getForceupdate();//是否需要强制更新
+                String downUrl = "http://192.168.124.26:8080/znsb" + updateInfo.getData().getFilepath();//apk下载地址
+                String updateinfo = updateInfo.getData().getUpgradeinfo();//apk更新详情
+
+                if (isForce.equals("yes")) {                              //强制更新     && !TextUtils.isEmpty(updateinfo)
+                    Log.d(TAG, "强制升级:：：：" + isForce);
+                    Log.d(TAG, "下载地址：：：" + downUrl);
+                    Log.d(TAG, "跟新信息：：：" + updateinfo);
+                    forceUpdate(CategoryActivity.this, AppName, downUrl, updateinfo);
+                } else {//非强制更新
+                    //正常升级
+                    Log.d(TAG, "正常升级");
+                    normalUpdate(CategoryActivity.this, AppName, downUrl, updateinfo);
+                }
+            }
+
+            @Override
+            public void onError() {
+                Log.d(TAG,"onError");
+                noneUpdate(CategoryActivity.this);
+            }
+        });
 
 
 

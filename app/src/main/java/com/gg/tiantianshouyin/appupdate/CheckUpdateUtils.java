@@ -70,16 +70,21 @@ public class CheckUpdateUtils {
 //                    Log.d(TAG,jsonObject.toString());
 //                    RequestBody requestBody = RequestBody.create(mediaType,jsonObject.toString());
 
-
+                    Log.d(TAG," sljdfk");
                     RequestBody requestBody = new FormBody.Builder()
                             .add("appname",appName)
-                            .add("versioncode","0")
+                            .add("versioncode",curVersionCode)
                             .build();
 
+                    Log.d(TAG," s");
+
                     Request request = new Request.Builder().url("http://192.168.124.26:8080/znsb/appinfo/getAppinfoMsg.do").post(requestBody).build();
+                    Log.d(TAG," 1");
 
                     Response response = client.newCall(request).execute();
+                    Log.d(TAG,"response");
                     if(response.isSuccessful()){
+                        Log.d(TAG,"response is successful");
                         String responseData = response.body().string();
                         Log.d(TAG,responseData);
                         Gson gson = new Gson();
