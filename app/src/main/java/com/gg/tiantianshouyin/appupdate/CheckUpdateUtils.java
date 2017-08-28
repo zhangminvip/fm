@@ -78,7 +78,7 @@ public class CheckUpdateUtils {
 
                     Log.d(TAG," s");
 
-                    Request request = new Request.Builder().url("http://192.168.124.26:8080/znsb/appinfo/getAppinfoMsg.do").post(requestBody).build();
+                    Request request = new Request.Builder().url("http://115.159.193.122:8080/znsb/appinfo/getAppinfoMsg.do").post(requestBody).build();
                     Log.d(TAG," 1");
 
                     Response response = client.newCall(request).execute();

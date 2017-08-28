@@ -43,7 +43,7 @@ public class SearchPlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mp = new MediaPlayer();   //不能写在mp定义的地方  也就是上面   不然seachsong会用到mp,如果写在上面，第二次启动service，会找不到mp.因为不会实例化，写在上面执行不到。
+        mp = new MediaPlayer();                                        //不能写在mp定义的地方  也就是上面   不然seachsong会用到mp,如果写在上面，第二次启动service，会找不到mp.因为不会实例化，写在上面执行不到。
 
         sMusicPlayOperater = new MusicPlayOperater();
         sMusicPlayOperater.setListener(new MusicPlayerListener() {

@@ -80,7 +80,7 @@ public class CategoryActivity extends Activity implements View.OnClickListener{
             @Override
             public void onSuccess(JsonsRootBean updateInfo) {
                 String isForce = updateInfo.getData().getForceupdate();//是否需要强制更新
-                String downUrl = "http://192.168.124.26:8080/znsb" + updateInfo.getData().getFilepath();//apk下载地址
+                String downUrl = "http://115.159.193.122:8080/znsb" + updateInfo.getData().getFilepath();//apk下载地址
                 String updateinfo = updateInfo.getData().getUpgradeinfo();//apk更新详情
 
                 if (isForce.equals("yes")) {                              //强制更新     && !TextUtils.isEmpty(updateinfo)
@@ -91,6 +91,9 @@ public class CategoryActivity extends Activity implements View.OnClickListener{
                 } else {//非强制更新
                     //正常升级
                     Log.d(TAG, "正常升级");
+                    Log.d(TAG, "强制升级:：：：" + isForce);
+                    Log.d(TAG, "下载地址：：：" + downUrl);
+                    Log.d(TAG, "跟新信息：：：" + updateinfo);
                     normalUpdate(CategoryActivity.this, AppName, downUrl, updateinfo);
                 }
             }

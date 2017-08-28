@@ -78,6 +78,7 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
         mIntentFilter.addAction("com.gg.tiantianshouyin.SearchActivity");
         mServiceReceiver = new ServiceReceiver();
         registerReceiver(mServiceReceiver,mIntentFilter);
+        Log.d(TAG,"onCreate");
 //        searchSong();
     }
 
@@ -208,16 +209,20 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
 
         Intent intent = getIntent();
         music_name = intent.getStringExtra("music_name");
-
-
-
-        title.setText(music_name);
-        title.requestFocus();
+        Log.d(TAG," music_name::::" +music_name);
+//
+//
+//
+//        title.setText(music_name);
+//        title.requestFocus();
+//
+//        Intent playintent = new Intent(this, SearchPlayService.class);
+//        startService(playintent);
 
 //        searchSong();
 
         Log.d(TAG,"onRestart");
-        Log.d("生命周期","onRestart:: music_name:" +music_name);
+
     }
 
 
@@ -231,8 +236,15 @@ public class SearchActivity  extends Activity implements View.OnClickListener {
 
     @Override
     protected void onResume() {
+
         super.onResume();
-        Log.d(TAG,"onResume");
+
+
+
+
+
+
+        Log.d(TAG,"onResume,music_name="+music_name);
     }
 
 
